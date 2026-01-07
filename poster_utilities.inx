@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Poster Utilities</name>
+    <id>org.inkscape.poster.utilities</id>
+    
+    <param name="tab" type="notebook">
+        <page name="input" gui-text="Input">
+            <param name="backend" type="optiongroup" appearance="combo" gui-text="Rendering Backend:">
+                <option value="inkscape">Inkscape Native Text</option>
+                <option value="latex">LaTeX (requires pdflatex + Inkscape CLI)</option>
+            </param>
+            
+            <separator/>
+            <label appearance="header">CSV Input</label>
+            <param name="use_csv" type="bool" gui-text="Use CSV file">false</param>
+            <param name="csv_file" type="path" mode="file" filetypes="csv" gui-text="CSV File:"></param>
+            <label>CSV Format: title,authors,conference,institutions,author_inst_map</label>
+            
+            <separator/>
+            <label appearance="header">Direct Input</label>
+            <label>(Use semicolon to separate multiple items)</label>
+            <param name="title" type="string" gui-text="Title:">Novel Approaches to Machine Learning in Scientific Research</param>
+            <param name="authors" type="string" gui-text="Authors:">John Doe;Jane Smith;Bob Johnson</param>
+            <param name="conference" type="string" gui-text="Conference:">International Conference on Machine Learning 2025</param>
+            <param name="institution" type="string" gui-text="Institutions:">MIT;Stanford University;Oxford</param>
+            
+            <separator/>
+            <label appearance="header">Quick Test</label>
+            <label>1. Keep default values above</label>
+            <label>2. Go to "Mapping" tab, keep "1,2;1;3"</label>
+            <label>3. Click Apply to test</label>
+        </page>
+        
+        <page name="mapping" gui-text="Author-Institution">
+            <label appearance="header">Author-Institution Mapping</label>
+            <label>Map authors to their institutions using numbers</label>
+            <label>Leave empty if no mapping needed</label>
+            <separator/>
+            
+            <label appearance="header">Format Examples:</label>
+            <label>• Positional: "1,2;1;3"</label>
+            <label>  (Author 1 → Inst 1,2; Author 2 → Inst 1; Author 3 → Inst 3)</label>
+            <label>• Explicit: "John Doe:1,2;Jane Smith:1;Bob Johnson:3"</label>
+            <label>  (Comma = multiple institutions, Semicolon = next author)</label>
+            <separator/>
+            
+            <param name="author_inst_map" type="string" gui-text="Mapping:" appearance="multiline">1,2;1;3</param>
+            
+            <separator/>
+            <param name="mapping_style" type="optiongroup" appearance="combo" gui-text="Marker Style:">
+                <option value="superscript">Superscript (Author¹'²)</option>
+                <option value="subscript">Subscript (Author₁₂)</option>
+                <option value="parenthesis">Parenthesis (Author (1,2))</option>
+                <option value="symbol">Symbols (Author*†)</option>
+            </param>
+            
+            <separator/>
+            <label appearance="header">Test Different Styles:</label>
+            <label>1. Try "Superscript" → Apply → See raised numbers</label>
+            <label>2. Delete result, try "Subscript" → Apply → See lowered numbers</label>
+            <label>3. Delete result, try "Parenthesis" → Apply → See (1,2)</label>
+            <label>4. Delete result, try "Symbols" → Apply → See *†‡</label>
+            
+            <separator/>
+            <label appearance="header">Expected Result (with default data):</label>
+            <label>Superscript: John Doe¹'², Jane Smith¹, Bob Johnson³</label>
+            <label>Institutions: ¹MIT, ²Stanford University, ³Oxford</label>
+        </page>
+        
+        <page name="latex" gui-text="LaTeX Options">
+            <label appearance="header">LaTeX Backend Settings</label>
+            <label>Only applies when "LaTeX" backend is selected</label>
+            <separator/>
+            
+            <label appearance="header">Requirements:</label>
+            <label>✓ pdflatex installed (MiKTeX, TeX Live, etc.)</label>
+            <label>✓ Inkscape command-line tools available</label>
+            <label>✓ Common LaTeX packages (article, amsmath, etc.)</label>
+            <separator/>
+            
+            <label appearance="header">Custom Preamble</label>
+            <label>Add ONLY packages - no \documentclass</label>
+            <label>Example: \usepackage{{xcolor}}</label>
+            <param name="latex_preamble" type="string" gui-text="Preamble:" appearance="multiline">\usepackage[utf8]{inputenc}
+\usepackage{times}
+\usepackage{amsmath}</param>
+            
+            <separator/>
+            <label appearance="header">Full Custom Template</label>
+            <label>Leave EMPTY to use default with author-institution mapping</label>
+            <label>If provided, must be complete LaTeX document</label>
+            <separator/>
+            
+            <label>Available placeholders:</label>
+            <label>• {{title}} - Poster title</label>
+            <label>• {{authors}} - Authors (semicolon separated)</label>
+            <label>• {{conference}} - Conference name</label>
+            <label>• {{institution}} - Institutions (semicolon separated)</label>
+            <separator/>
+            
+            <param name="latex_template" type="string" gui-text="Custom Template:" appearance="multiline"></param>
+            
+            <separator/>
+            <label appearance="header">Quick Test:</label>
+            <label>1. Leave template empty (uses default)</label>
+            <label>2. Backend: LaTeX</label>
+            <label>3. Use default values from Input tab</label>
+            <label>4. Click Apply</label>
+            <label>5. Should create professional output with superscripts</label>
+        </page>
+        
+        <page name="latex_examples" gui-text="LaTeX Templates">
+            <label appearance="header">Copy-Paste Templates</label>
+            <label>Copy entire template and paste into "LaTeX Options" tab</label>
+            <label>Replace {{curly}} with {single} braces when pasting</label>
+            <separator/>
+            
+            <label appearance="header">Template 1: Simple Centered</label>
+            <label>\documentclass{{article}}</label>
+            <label>\usepackage{{times}}</label>
+            <label>\pagestyle{{empty}}</label>
+            <label>\begin{{document}}</label>
+            <label>\begin{{center}}</label>
+            <label>\textbf{{\Huge {{title}}}}</label>
+            <label>\\[0.5cm]</label>
+            <label>\Large {{authors}}</label>
+            <label>\\[0.3cm]</label>
+            <label>\textit{{\large {{conference}}}}</label>
+            <label>\\[0.2cm]</label>
+            <label>\normalsize {{institution}}</label>
+            <label>\end{{center}}</label>
+            <label>\end{{document}}</label>
+            
+            <separator/>
+            <label appearance="header">Template 2: Blue Title</label>
+            <label>\documentclass{{article}}</label>
+            <label>\usepackage{{xcolor}}</label>
+            <label>\usepackage{{times}}</label>
+            <label>\pagestyle{{empty}}</label>
+            <label>\begin{{document}}</label>
+            <label>\begin{{center}}</label>
+            <label>\textcolor{{blue}}{{\textbf{{\Huge {{title}}}}}}</label>
+            <label>\\[0.5cm]</label>
+            <label>\Large {{authors}}</label>
+            <label>\\[0.3cm]</label>
+            <label>\textit{{\large {{conference}}}}</label>
+            <label>\\[0.2cm]</label>
+            <label>\normalsize {{institution}}</label>
+            <label>\end{{center}}</label>
+            <label>\end{{document}}</label>
+<!--             
+            <separator/>
+            <label appearance="header">Template 3: With Frame</label>
+            <label>\documentclass{{article}}</label>
+            <label>\usepackage{{fancybox}}</label>
+            <label>\pagestyle{{empty}}</label>
+            <label>\begin{{document}}</label>
+            <label>\fbox{{\parbox{{0.9\textwidth}}{{</label>
+            <label>\centering</label>
+            <label>\textbf{{\Huge {{title}}}}\\[0.4cm]</label>
+            <label>\Large {{authors}}\\[0.3cm]</label>
+            <label>\textit{{\large {{conference}}}}\\[0.2cm]</label>
+            <label>\normalsize {{institution}}</label>
+            <label>}}}}</label>
+            <label>\end{{document}}</label>
+            
+            <separator/>
+            <label appearance="header">Template 4: Two-Column</label>
+            <label>\documentclass{{article}}</label>
+            <label>\usepackage{{multicol}}</label>
+            <label>\pagestyle{{empty}}</label>
+            <label>\begin{{document}}</label>
+            <label>\textbf{{\Huge {{title}}}}\\[0.5cm]</label>
+            <label>\begin{{multicols}}{{2}}</label>
+            <label>\textbf{{Authors:}} {{authors}}</label>
+            <label>\columnbreak</label>
+            <label>\textbf{{Institutions:}} {{institution}}</label>
+            <label>\end{{multicols}}</label>
+            <label>\\[0.3cm]</label>
+            <label>\textit{{\large {{conference}}}}</label>
+            <label>\end{{document}}</label> -->
+        </page>
+        
+        <page name="formatting" gui-text="Formatting">
+            <label appearance="header">Font Sizes</label>
+            <label>Only applies to Inkscape backend</label>
+            <param name="title_size" type="int" min="10" max="200" gui-text="Title font size (px):">48</param>
+            <param name="author_size" type="int" min="10" max="200" gui-text="Author font size (px):">32</param>
+            <param name="conf_size" type="int" min="10" max="200" gui-text="Conference font size (px):">28</param>
+            <param name="inst_size" type="int" min="10" max="200" gui-text="Institution font size (px):">24</param>
+            
+            <separator/>
+            <label appearance="header">Position and Spacing</label>
+            <param name="x_position" type="int" min="0" max="10000" gui-text="X position (px):">100</param>
+            <param name="y_position" type="int" min="0" max="10000" gui-text="Y position (px):">100</param>
+            <param name="line_spacing" type="int" min="10" max="500" gui-text="Spacing between sections (px):">80</param>
+            
+            <separator/>
+            <label appearance="header">Text Alignment</label>
+            <label>Test all three options to verify alignment works</label>
+            <param name="text_align" type="optiongroup" appearance="combo" gui-text="Alignment:">
+                <option value="left">Left</option>
+                <option value="center">Center</option>
+                <option value="right">Right</option>
+            </param>
+            
+            <separator/>
+            <label appearance="header">Alignment Test Steps:</label>
+            <label>1. Set alignment to "Left" → Apply</label>
+            <label>2. Delete result, set to "Center" → Apply</label>
+            <label>3. Delete result, set to "Right" → Apply</label>
+            <label>All three should show different horizontal positions</label>
+            
+            <separator/>
+            <label appearance="header">Position Test:</label>
+            <label>• X=100, Y=100 → Top-left area</label>
+            <label>• X=400, Y=200 → More centered</label>
+            <label>• Change values and Apply to see movement</label>
+        </page>
+        
+        <page name="help" gui-text="Help &amp; Testing">
+            <label appearance="header">Complete Test Checklist</label>
+            
+            <separator/>
+            <label appearance="header">✓ Test 1: Basic Inkscape (2 min)</label>
+            <label>1. Backend: Inkscape</label>
+            <label>2. Keep all default values</label>
+            <label>3. Mapping: Keep "1,2;1;3", Style: Superscript</label>
+            <label>4. Click Apply</label>
+            <label>Expected: Title + Authors with superscripts + Conference + Institutions</label>
+            
+            <separator/>
+            <label appearance="header">✓ Test 2: Subscript Style (1 min)</label>
+            <label>1. Delete previous result (select and Del)</label>
+            <label>2. Mapping tab: Change to "Subscript"</label>
+            <label>3. Click Apply</label>
+            <label>Expected: Numbers appear below baseline (₁₂₃)</label>
+            
+            <separator/>
+            <label appearance="header">✓ Test 3: Text Alignment (2 min)</label>
+            <label>1. Delete result</label>
+            <label>2. Formatting tab: Select "Center"</label>
+            <label>3. Click Apply → Text centered</label>
+            <label>4. Delete, select "Right", Apply → Text right-aligned</label>
+            
+            <separator/>
+            <label appearance="header">✓ Test 4: LaTeX Default (2 min)</label>
+            <label>1. Delete result</label>
+            <label>2. Backend: LaTeX</label>
+            <label>3. LaTeX tab: Leave template EMPTY</label>
+            <label>4. Click Apply</label>
+            <label>Expected: Professional typeset output</label>
+            <label>Note: If error occurs, check Extensions > Errors</label>
+            
+            <!-- <separator/>
+            <label appearance="header">✓ Test 5: LaTeX Custom (3 min)</label>
+            <label>1. Delete result</label>
+            <label>2. Go to "LaTeX Templates" tab</label>
+            <label>3. Copy Template 2 (Blue Title)</label>
+            <label>4. Paste into "LaTeX Options" Custom Template field</label>
+            <label>5. Replace double braces {{}} with single {}</label>
+            <label>6. Click Apply</label>
+            <label>Expected: Blue colored title</label>
+            
+            <separator/>
+            <label appearance="header">✓ Test 6: CSV Input (2 min)</label>
+            <label>1. Create file test.csv with content:</label>
+            <label>   title,authors,institutions,author_inst_map</label>
+            <label>   "My Title","A;B;C","X;Y;Z","1;2;3"</label>
+            <label>2. Check "Use CSV file"</label>
+            <label>3. Browse to CSV</label>
+            <label>4. Click Apply</label>
+             -->
+           
+     
+        </page>
+    </param>
+    
+    <effect>
+        <object-type>all</object-type>
+        <effects-menu>
+            <submenu name="Text"/>
+        </effects-menu>
+    </effect>
+    
+    <script>
+        <command location="inx" interpreter="python">poster_utilities.py</command>
+    </script>
+</inkscape-extension>
