@@ -64,7 +64,9 @@ class PosterUtilities(inkex.EffectExtension):
                 'institution': self.options.institution,
                 'author_inst_map': self.options.author_inst_map
             }
-        
+            #data = self.parse_csv(self.options.csv_file)
+
+            
         # Debug output
         inkex.utils.debug(f"Data: {data}")
         inkex.utils.debug(f"Backend: {self.options.backend}")
