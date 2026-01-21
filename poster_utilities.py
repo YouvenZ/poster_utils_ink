@@ -1,9 +1,18 @@
 #!/usr/bin/env python3
+
+# MIT License
+
+# Copyright (c) 2026 Rachid, Youven ZEGHLACHE
+#!/usr/bin/env python3
 """
 Inkscape Poster Utilities Extension
 Adds title, authors, conference, and institution text to posters
 Supports both Inkscape native text and LaTeX rendering
 """
+
+
+
+
 
 import inkex
 from inkex import TextElement, Transform, Tspan
