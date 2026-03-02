@@ -1,4 +1,7 @@
-Collecting workspace information# Poster Utilities for Inkscape
+
+<div align="center">
+
+# Poster Utilities for Inkscape
 
 [![Inkscape](https://img.shields.io/badge/Inkscape-1.0+-blue.svg)](https://inkscape.org/)
 [![Python](https://img.shields.io/badge/Python-3.6+-green.svg)](https://www.python.org/)
@@ -7,6 +10,20 @@ Collecting workspace information# Poster Utilities for Inkscape
 > **Automate poster header creation in Inkscape with professional formatting**
 
 A powerful Inkscape extension that automatically adds formatted title, authors, affiliations, and conference information to academic posters. Supports both native Inkscape text rendering and LaTeX compilation for publication-quality output.
+
+</div>
+
+## 📺 Demo
+
+<div align="center">
+
+<!-- Replace VIDEO_ID with your actual YouTube video ID -->
+[![Watch the Demo](https://img.youtube.com/vi/IjqLCDHu750/maxresdefault.jpg)](https://www.youtube.com/watch?v=IjqLCDHu750)
+
+*Click to watch the full tutorial on YouTube*
+
+</div>
+
 
 ---
 
